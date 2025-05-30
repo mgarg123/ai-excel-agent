@@ -1,0 +1,23 @@
+[project]
+name = "excel-agent"
+version = "0.1.0"
+description = "An AI agent for interacting with Excel files using natural language."
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "pandas",
+    "openpyxl",
+    "groq",
+    "python-dotenv",
+    "rich",
+    "matplotlib",
+    "seaborn",
+    "PyQt6",
+]
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find] # NEW: Section to configure package discovery
+where = ["src"] # NEW: Tell setuptools to look for packages in the 'src' directory

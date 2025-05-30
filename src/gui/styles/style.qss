@@ -1,0 +1,161 @@
+/* General Window Styling */
+QMainWindow {
+    background-color: #f8f8f8; /* Very light grey */
+    font-family: "Segoe UI", "Roboto", "Helvetica Neue", sans-serif;
+    font-size: 14px;
+    color: #333333;
+}
+
+/* Group Boxes for Sectioning */
+QGroupBox {
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #ffffff;
+}
+QGroupBox::title {
+    subcontrol-origin: margin;
+    subcontrol-position: top left;
+    padding: 0 5px;
+    background-color: #f0f0f0;
+    border-radius: 4px;
+    font-weight: bold;
+    color: #555555;
+}
+
+/* Buttons */
+QPushButton {
+    background-color: #007bff; /* Primary blue */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-weight: bold;
+    min-width: 80px;
+}
+QPushButton:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+}
+QPushButton:pressed {
+    background-color: #004085; /* Even darker on press */
+}
+QPushButton:disabled {
+    background-color: #cccccc;
+    color: #666666;
+}
+
+/* Line Edits and Text Edits */
+QLineEdit, QTextEdit {
+    border: 1px solid #cccccc;
+    border-radius: 5px;
+    padding: 8px;
+    background-color: #ffffff;
+    selection-background-color: #a8d8ff;
+}
+QLineEdit:focus, QTextEdit:focus {
+    border: 1px solid #007bff; /* Highlight on focus */
+}
+
+/* QLineEdit with actions (for the file icon) */
+QLineEdit QToolButton { /* QAction is rendered as a QToolButton */
+    border: none;
+    background-color: transparent;
+    padding: 0 5px; /* Adjust padding to position icon */
+}
+QLineEdit QToolButton:hover {
+    background-color: #e0e0e0;
+    border-radius: 3px;
+}
+QLineEdit QToolButton:pressed {
+    background-color: #d0d0d0;
+}
+
+
+/* Table Widget */
+QTableWidget {
+    border: 1px solid #e0e0e0;
+    gridline-color: #f0f0f0;
+    background-color: #ffffff;
+    selection-background-color: #e0f2f7; /* Light blue selection */
+    alternate-background-color: #f9f9f9; /* Zebra striping */
+    border-radius: 5px;
+}
+QHeaderView::section {
+    background-color: #e9ecef; /* Light grey header */
+    padding: 8px;
+    border: 1px solid #e0e0e0;
+    font-weight: bold;
+    color: #555555;
+}
+QTableWidget::item {
+    padding: 5px;
+}
+
+/* Labels */
+QLabel {
+    color: #333333;
+}
+
+/* Progress Dialog */
+QProgressDialog {
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+}
+QProgressDialog QLabel {
+    padding: 10px;
+    font-size: 15px;
+    font-weight: bold;
+}
+QProgressBar {
+    border: 1px solid #cccccc;
+    border-radius: 5px;
+    text-align: center;
+    background-color: #e0e0e0;
+}
+QProgressBar::chunk {
+    background-color: #007bff;
+    border-radius: 5px;
+}
+
+/* Status Bar */
+QStatusBar {
+    background-color: #e9ecef;
+    color: #555555;
+    padding: 3px;
+    border-top: 1px solid #d0d0d0;
+}
+
+/* MODIFIED: QTabWidget Styling */
+QTabWidget::pane { /* The tab widget frame */
+    border: 1px solid #e0e0e0;
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+    background-color: #ffffff;
+}
+
+QTabBar::tab {
+    background: #e9ecef; /* Light grey for inactive tabs */
+    border: 1px solid #e0e0e0;
+    border-bottom-color: #e0e0e0; /* Same as pane border */
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    padding: 8px 15px;
+    margin-right: 2px;
+    color: #555555;
+}
+
+QTabBar::tab:selected {
+    background: #007bff; /* Blue for selected tab */
+    color: white;
+    border-color: #007bff;
+    border-bottom-color: #007bff; /* Match selected tab color */
+    font-weight: bold;
+}
+
+QTabBar::tab:hover:!selected {
+    background: #d0d0d0; /* Slightly darker grey on hover for unselected */
+}

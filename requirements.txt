@@ -1,0 +1,8 @@
+pandas
+openpyxl
+groq
+python-dotenv
+rich
+matplotlib
+seaborn
+PyQt6 # NEW: Added PyQt6 dependency
