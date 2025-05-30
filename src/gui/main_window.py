@@ -14,7 +14,8 @@ from PyQt6.QtGui import QPixmap, QImage, QTextCharFormat, QColor, QFont, QTextCu
 
 from src.excel_agent.agent import ExcelAgent
 from src.excel_agent.output.gui_output_handler import GuiOutputHandler
-from src.excel_agent.utils import validate_excel_path
+from src.excel_agent.utils import validate_data_file_path # MODIFIED: Changed import from validate_excel_path
+from src.excel_agent.config import Config
 
 # Worker thread for running the ExcelAgent to keep the GUI responsive
 class AgentWorker(QThread):
@@ -51,12 +52,12 @@ class MainWindow(QMainWindow):
         self.progress_dialog = None # To hold the progress dialog
         self.current_plot_path = None # New attribute to store the path of the current plot
 
-        self.setWindowIcon(QIcon(os.path.join(os.path.dirname(__file__), 'icons', 'app_icon.png'))) # Set application icon (requires app_icon.png)
+        self.setWindowIcon(QIcon(os.path.join(os.path.dirname(__file__), 'images', 'app.png'))) # MODIFIED: Set application icon path
 
         self.init_ui()
         self.connect_signals()
         
-        self.showMaximized() # MODIFIED: Open the application in maximized mode
+        self.showMaximized() # Open the application in maximized mode
 
     def init_ui(self):
         central_widget = QWidget()
@@ -162,17 +163,32 @@ class MainWindow(QMainWindow):
         self.output_handler.success_signal.connect(self.show_success_messagebox)
 
     def browse_files(self):
-        # Allow selecting multiple Excel files
+        # Allow selecting multiple supported data files
         file_dialog = QFileDialog()
         file_dialog.setFileMode(QFileDialog.FileMode.ExistingFiles)
-        file_dialog.setNameFilter("Excel Files (*.xlsx *.xls)")
         
+        # Create a filter string for supported extensions
+        filter_parts = []
+        if ".xlsx" in Config.SUPPORTED_FILE_EXTENSIONS or ".xls" in Config.SUPPORTED_FILE_EXTENSIONS:
+            excel_extensions = []
+            if ".xlsx" in Config.SUPPORTED_FILE_EXTENSIONS: excel_extensions.append("*.xlsx")
+            if ".xls" in Config.SUPPORTED_FILE_EXTENSIONS: excel_extensions.append("*.xls")
+            if excel_extensions:
+                filter_parts.append(f"Excel Files ({' '.join(excel_extensions)})")
+        
+        if ".csv" in Config.SUPPORTED_FILE_EXTENSIONS:
+            filter_parts.append("CSV Files (*.csv)")
+        
+        filter_parts.append("All Files (*)")
+        
+        file_dialog.setNameFilter(";;".join(filter_parts))
+
         if file_dialog.exec():
             selected_files = file_dialog.selectedFiles()
             if selected_files:
-                # Validate selected files
-                if not validate_excel_path(selected_files):
-                    QMessageBox.warning(self, "Invalid Files", "Some selected files are not valid Excel files or do not exist.")
+                # Use the new validation function
+                if not validate_data_file_path(selected_files):
+                    QMessageBox.warning(self, "Invalid Files", "Some selected files are not valid supported data files or do not exist.")
                     self.current_file_paths = []
                     self.statusBar.showMessage("Error: Invalid file(s) selected.", 5000)
                     return
@@ -194,8 +210,8 @@ class MainWindow(QMainWindow):
 
     def process_user_query(self):
         if not self.current_file_paths:
-            QMessageBox.warning(self, "No File Selected", "Please select at least one Excel file first.")
-            self.statusBar.showMessage("Error: No Excel file selected.", 5000)
+            QMessageBox.warning(self, "No File Selected", "Please select at least one data file first.")
+            self.statusBar.showMessage("Error: No data file selected.", 5000)
             return
 
         user_query = self.query_input.text().strip()
@@ -217,7 +233,7 @@ class MainWindow(QMainWindow):
         try:
             # Get the directory of the first selected file
             first_file_dir = os.path.dirname(self.current_file_paths[0])
-            # Change the current working directory to where the Excel files are located
+            # Change the current working directory to where the data files are located
             os.chdir(first_file_dir)
             self.append_output_message(f"Changed working directory to: {first_file_dir}", style='dim')
             
