@@ -17,6 +17,10 @@ class Config:
     # Output file naming convention
     OUTPUT_FILE_PREFIX: str = "excel_agent_output_"
     PLOTS_DIR: str = "plots" # MODIFIED: Added directory for plots
+    
+    # Supported file extensions for data loading
+    SUPPORTED_FILE_EXTENSIONS: list = [".xlsx", ".xls", ".csv"] # ADDED: Define supported file extensions
 
     if not GROQ_API_KEY:
         print("Warning: GROQ_API_KEY not found in environment variables. Please set it in a .env file or directly.")
+
